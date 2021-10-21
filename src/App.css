@@ -1,3 +1,7 @@
+* {
+  font-family: 'Arial'
+}
+
 .App {
   text-align: center;
 }
@@ -12,6 +16,8 @@
   left: 1%;
   margin-left: 1rem;
   z-index: 999;
+  width: 300px;
+  word-wrap: break-word;
 }
 
 .meme-text-2 {
@@ -24,6 +30,8 @@
   left: 1%;
   margin-left: 1rem;
   z-index: 999;
+  width: 300px;
+  word-wrap: break-word;
 }
 
 .last-btn, .next-btn {
@@ -42,7 +50,8 @@
 }
 
 .random-meme img {
-  max-height: 60vh;
+  width: 600px;
+  max-width: 1200px;
 }
 
 
@@ -51,7 +60,39 @@
   justify-content: flex-start;
 }
 
+.text-option-form {
+  display: contents;
+}
+
 .text1-options, .text2-options {
   margin-left: 1rem;
   margin-right: 3rem;
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-evenly;
+  width: 15vw;
+}
+
+.upload-btn {
+  color: white;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  background-color: rgb(25, 161, 206);
+  border: none;
+  border-radius: 18px;
+  padding: 10px 20px;
+  margin: 1rem 8rem 1rem 1rem;
+  transition: ease-in 0.2s;
+}
+
+.upload-btn:hover {
+  background-color: rgb(78, 175, 207);
+  transition: ease-in 0.2s;
+}
+
+.image-resize {
+  margin-left: 1rem;
 }
