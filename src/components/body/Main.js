@@ -15,24 +15,46 @@ const reducer = (state, action) => {
   // console.log(action, ' + ', state);
   switch (action.type) {
     case 'text1-top':
-      console.log(action)
+      console.log(state)
       return {    
-        top: action.top + '%'
+        text1: {
+          top: action.top + '%',
+          left: state.text1.left, 
+          fontSize: state.text1.fontSize, 
+          color: state.text1.color
+        },
+        text2: {...state.text2}
       }
       break;
 
     case 'text2-top':
-      return {    
-        top: action.top + '%'
+      console.log(state)
+      return {  
+        text1: {...state.text1},
+        
+        text2: {  
+          top: action.top + '%',
+          left: state.text2.left, 
+          fontSize: state.text2.fontSize, 
+          color: state.text2.color
+        }
       }
       break;
 
     default:
       return {
-        top: 30 + '%', 
-        left: 0 + '%', 
-        fontSize: 18 + 'px', 
-        color: '#ffffff'
+        text1: {
+          top: 30 + '%', 
+          left: 0 + '%', 
+          fontSize: 18 + 'px', 
+          color: '#ffffff'
+        },
+        text2: {
+          top: 60 + '%', 
+          left: 0 + '%', 
+          fontSize: 18 + 'px', 
+          color: '#ffffff'
+        }
       }
   }
 }
@@ -52,7 +74,7 @@ function Main() {
       color: '#ffffff'
     }
   });
-
+console.log(textState)
   const fetchUrl = 'https://api.imgflip.com/get_memes';
 
   const [meme, setMeme] = useState([]); 
@@ -136,22 +158,17 @@ function Main() {
   
   const handleTextTop = (e) => {
     if(e.target.name === 'text1-top') {
-      console.log(textState)
+      console.log(textState);
       dispatch({type: ACTIONS.TEXT1_TOP, top: e.target.value});
-
-      // setOptionsText1({
-      //   top: e.target.value + '%', 
-      //   left: optionsText1.left + '%', 
-      //   fontSize: optionsText1.fontSize + 'px', 
-      //   color: optionsText1.color}
-      // );
     } else if(e.target.name === 'text2-top') {
-      setOptionsText2({
-        top: e.target.value + '%', 
-        left: optionsText2.left + '%', 
-        fontSize: optionsText2.fontSize + 'px', 
-        color: optionsText2.color}
-      );
+      console.log(e.target.name);
+      dispatch({type: ACTIONS.TEXT2_TOP, top: e.target.value});
+      // setOptionsText2({
+      //   top: e.target.value + '%', 
+      //   left: optionsText2.left + '%', 
+      //   fontSize: optionsText2.fontSize + 'px', 
+      //   color: optionsText2.color}
+      // );
     }
   }
   
@@ -223,14 +240,45 @@ function Main() {
         <div className="text1-options">
           <h3>Text 1</h3>
           <label for="text1-top">Top: </label>
-            <input name="text1-top" type="range" min="20" max="100" step="0.3" onChange={handleTextTop}/><br/>
+          <input 
+            name="text1-top" 
+            type="range" 
+            min="20" 
+            max="100" 
+            step="0.3" 
+            onChange={handleTextTop}/>
+          <br/>
           <label for="text1-left">Left: </label>
-            <input name="text1-left" type="range" min="0" max="20" step="0.3" onChange={handleTextLeft}/><br/>
+            <input 
+              name="text1-left" 
+              type="range" 
+              min="0" 
+              max="20" 
+              step="0.3" 
+              onChange={handleTextLeft}/>
+            <br/>
           <label for="text1-font">Font-Size: </label>
-            <input name="text1-font" type="range" min="20" max="80" step="0.5" onChange={handleTextFont}/><br/>
+            <input 
+              name="text1-font" 
+              type="range" 
+              min="20" 
+              max="80" 
+              step="0.5" 
+              onChange={handleTextFont}/>
+            <br/>
           <label for="text1-color">Choose color: </label>
-            <input name="text1-color" type="color" value={optionsText1.color} onChange={handleTextColor} /><br/><br/>
-            <input type="text" name="text1" placeholder={memeTexts.text1} onChange={handleTextinput} /><br/><br/>
+            <input 
+              name="text1-color" 
+              type="color" 
+              value={optionsText1.color} 
+              onChange={handleTextColor} />
+              <br/><br/>
+            <input 
+              type="text" 
+              name="text1" 
+              placeholder={memeTexts.text1} 
+              onChange={handleTextinput} />
+            <br/><br/>
         </div>
 
         <div className="text2-options">
@@ -282,7 +330,7 @@ function Main() {
       <div className="random-meme">
         <img style={{width: imageSize + 'px'}} src={meme.memes && meme.memes[memeCount].url} /><br/>
           <p className="meme-text-1" style={{
-            top: textState.top, 
+            top: textState && textState.text1.top, 
             left: optionsText1.left, 
             fontSize: optionsText1.fontSize, 
             color: optionsText1.color, 
@@ -291,7 +339,7 @@ function Main() {
           </p>
           
           <p className="meme-text-2" style={{
-            top: optionsText2.top, 
+            top: textState && textState.text2.top, 
             left: optionsText2.left, 
             fontSize: optionsText2.fontSize, 
             color: optionsText2.color, 
