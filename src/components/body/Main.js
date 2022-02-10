@@ -3,32 +3,37 @@ import axios from 'axios';
 
 const ACTIONS = {
   FETCH_MEMES: 'fetch-memes',
-  MEME_TEXT: 'meme-text',
+  MEME_TEXT1: 'meme-text1',
+  MEME_TEXT2: 'meme-text2',
   TEXT1_TOP: 'text1-top',
   TEXT2_TOP: 'text2-top',
+  TEXT1_LEFT: 'text1-left',
+  TEXT2_LEFT: 'text2-left',
+  TEXT1_FONT: 'text1-font',
+  TEXT2_FONT: 'text2-font',
+  TEXT1_COLOR: 'text1-color',
+  TEXT2_COLOR: 'text2-color',
   IMAGE_SIZE: 'image-size',
   IMAGE_UPLOAD:  'image-upaload',
   SET_FILE: 'set-file'
 };
 
 const reducer = (state, action) => {
-  // console.log(action, ' + ', state);
+  console.log(state)
   switch (action.type) {
     case 'text1-top':
-      console.log(state)
       return {    
         text1: {
           top: action.top + '%',
           left: state.text1.left, 
           fontSize: state.text1.fontSize, 
-          color: state.text1.color
+          color: state.text1.color,
+          text: state.text1.text
         },
         text2: {...state.text2}
       }
-      break;
 
     case 'text2-top':
-      console.log(state)
       return {  
         text1: {...state.text1},
         
@@ -36,10 +41,110 @@ const reducer = (state, action) => {
           top: action.top + '%',
           left: state.text2.left, 
           fontSize: state.text2.fontSize, 
-          color: state.text2.color
+          color: state.text2.color,
+          text: state.text2.text
         }
       }
-      break;
+
+    case 'text1-left':
+      return {    
+        text1: {
+          top: state.text1.top,
+          left: action.left, 
+          fontSize: state.text1.fontSize, 
+          color: state.text1.color,
+          text: state.text1.text
+        },
+        text2: {...state.text2}
+      }
+
+    case 'text2-left':
+      return {  
+        text1: {...state.text1},
+        
+        text2: {  
+          top: state.text2.top,
+          left: action.left, 
+          fontSize: state.text2.fontSize, 
+          color: state.text2.color,
+          text: state.text2.text
+        }
+      }
+
+    case 'text1-font':
+      return {    
+        text1: {
+          top: state.text1.top,
+          left: state.text1.left, 
+          fontSize: action.fontSize, 
+          color: state.text1.color,
+          text: state.text1.text
+        },
+        text2: {...state.text2}
+      }
+
+    case 'text2-font':
+      return {  
+        text1: {...state.text1},
+        
+        text2: {  
+          top: state.text2.top,
+          left: state.text2.left, 
+          fontSize: action.fontSize, 
+          color: state.text2.color,
+          text: state.text2.text
+        }
+      }
+
+    case 'text1-color':
+      return {    
+        text1: {
+          top: state.text1.top,
+          left: state.text1.left, 
+          fontSize: state.text1.fontSize, 
+          color: action.fontColor,
+          text: state.text1.text
+        },
+        text2: {...state.text2}
+      }
+
+    case 'text2-color':
+      return {  
+        text1: {...state.text1},
+        
+        text2: {  
+          top: state.text2.top,
+          left: state.text2.left, 
+          fontSize: state.text2.fontSize, 
+          color: action.fontColor,
+          text: state.text2.text
+        }
+      }
+
+    case 'meme-text1':
+      return {    
+        text1: {
+          top: state.text1.top,
+          left: state.text1.left, 
+          fontSize: state.text1.fontSize, 
+          color: state.text1.fontColor,
+          text: action.text
+        },
+        text2: {...state.text2}
+      }
+
+    case 'meme-text2':
+      return {  
+        text1: {...state.text1},
+        
+        text2: {  
+          top: state.text2.top,
+          left: state.text2.left, 
+          fontSize: state.text2.fontSize, 
+          color: state.text1.fontColor,
+          text: action.text
+        }
+      }
 
     default:
       return {
@@ -47,13 +152,15 @@ const reducer = (state, action) => {
           top: 30 + '%', 
           left: 0 + '%', 
           fontSize: 18 + 'px', 
-          color: '#ffffff'
+          color: '#ffffff',
+          text: 'Your first text here!'
         },
         text2: {
           top: 60 + '%', 
           left: 0 + '%', 
           fontSize: 18 + 'px', 
-          color: '#ffffff'
+          color: '#ffffff',
+          text: 'Your second text here!'
         }
       }
   }
@@ -65,35 +172,22 @@ function Main() {
       top: 30 + '%', 
       left: 0 + '%', 
       fontSize: 18 + 'px', 
-      color: '#ffffff'
+      color: '#ffffff',
+      text: 'This is your first text...'
     },
     text2: {
       top: 60 + '%', 
       left: 0 + '%', 
       fontSize: 18 + 'px', 
-      color: '#ffffff'
+      color: '#ffffff',
+      text: 'This is your second text...'
     }
   });
-console.log(textState)
+
   const fetchUrl = 'https://api.imgflip.com/get_memes';
 
   const [meme, setMeme] = useState([]); 
   const [memeCount, setMemeCount] = useState(0);
-  const [memeTexts, setMemeTexts] = useState({text1: 'Your first text here', text2: 'Your second text here'});
-  const [optionsText1, setOptionsText1] = useState(
-    {
-      top: 30 + '%', 
-      left: 0 + '%', 
-      fontSize: 18 + 'px', 
-      color: '#ffffff'
-    });
-  const [optionsText2, setOptionsText2] = useState(
-    {
-      top: 60 + '%', 
-      left: 0 + '%', 
-      fontSize: 18 + 'px', 
-      color: '#ffffff'
-    });
   const [imageSize, setImageSize] = useState();
   const [imageUpload, setImageUpload] = useState(false);
   const [file, setFile] = useState(null);
@@ -144,90 +238,46 @@ console.log(textState)
   const handleTextinput = (e) => {
     console.log(e.target.name)
     if(e.target.name === 'text1') {
-      setMemeTexts({
-        text1: e.target.value, 
-        text2: memeTexts.text2}
-      );
+      dispatch({type: ACTIONS.MEME_TEXT1, text: e.target.value});
     } else if(e.target.name === 'text2') {
-      setMemeTexts({
-        text1: memeTexts.text1, 
-        text2: e.target.value}
-      );
+      dispatch({type: ACTIONS.MEME_TEXT2, text: e.target.value});
     }
   }
   
   const handleTextTop = (e) => {
     if(e.target.name === 'text1-top') {
-      console.log(textState);
       dispatch({type: ACTIONS.TEXT1_TOP, top: e.target.value});
     } else if(e.target.name === 'text2-top') {
-      console.log(e.target.name);
       dispatch({type: ACTIONS.TEXT2_TOP, top: e.target.value});
-      // setOptionsText2({
-      //   top: e.target.value + '%', 
-      //   left: optionsText2.left + '%', 
-      //   fontSize: optionsText2.fontSize + 'px', 
-      //   color: optionsText2.color}
-      // );
     }
   }
   
   const handleTextLeft = (e) => {
     if(e.target.name === 'text1-left') {
-      setOptionsText1({
-        top: optionsText1.top, 
-        left: e.target.value + '%', 
-        fontSize: optionsText1.fontSize + 'px', 
-        color: optionsText1.color}
-      );
+      dispatch({type: ACTIONS.TEXT1_LEFT, left: e.target.value + '%'});
     } else if(e.target.name === 'text2-left') {
-      setOptionsText2({
-        top: optionsText2.top, 
-        left: e.target.value + '%', 
-        fontSize: optionsText2.fontSize + 'px', 
-        color: optionsText2.color}
-      );
+      dispatch({type: ACTIONS.TEXT2_LEFT, left:  e.target.value + '%'});
     }
   }
   
   const handleTextFont = (e) => {
     if(e.target.name === 'text1-font') {
-      setOptionsText1({
-        top: optionsText1.top, 
-        left: optionsText1.left + '%',
-        fontSize: e.target.value + 'px', 
-        color: optionsText1.color}
-      );
+      dispatch({type: ACTIONS.TEXT1_FONT, fontSize: e.target.value + 'px'});
     } else if(e.target.name === 'text2-font') {
-      setOptionsText2({
-        top: optionsText2.top, 
-        left: optionsText2.left + '%', 
-        fontSize: e.target.value + 'px', 
-        color: optionsText2.color}
-      );
+      dispatch({type: ACTIONS.TEXT2_FONT, fontSize: e.target.value + 'px'});
     }
   }
 
   const handleTextColor = (e) => {
     if(e.target.name === 'text1-color') {
-      setOptionsText1({
-        top: optionsText1.top, 
-        left: optionsText1.left + '%', 
-        fontSize: optionsText1.fontSize + 'px', 
-        color: e.target.value}
-      );
+      dispatch({type: ACTIONS.TEXT1_COLOR, fontColor: e.target.value});
     } else if(e.target.name === 'text2-color') {
-      setOptionsText2({
-        top: optionsText2.top, 
-        left: optionsText2.left + '%', 
-        fontSize: optionsText2.fontSize + 'px', 
-        color: e.target.value}
-      );
+      dispatch({type: ACTIONS.TEXT2_COLOR, fontColor: e.target.value});
     }
   }
 
   const imageSizeHandler = (e) => {
-    setImageSize(e.target.value)
+    setImageSize(e.target.value);
   }
 
   const uploadImageHandler = (e) => {
@@ -270,13 +320,13 @@ console.log(textState)
             <input 
               name="text1-color" 
               type="color" 
-              value={optionsText1.color} 
+              value={textState.text1.fontColor} 
               onChange={handleTextColor} />
               <br/><br/>
             <input 
               type="text" 
               name="text1" 
-              placeholder={memeTexts.text1} 
+              placeholder='This here ist the first text...' 
               onChange={handleTextinput} />
             <br/><br/>
         </div>
@@ -304,10 +354,27 @@ console.log(textState)
             <br/>
 
           <label for="text2-font">Font-Size: </label>
-            <input name="text2-font" type="range" min="20" max="80" step="0.5" onChange={handleTextFont}/><br/>
+            <input 
+              name="text2-font" 
+              type="range" 
+              min="20" 
+              max="80" 
+              step="0.5" 
+              onChange={handleTextFont}/>
+            <br/>
           <label for="text2-color">Choose color: </label>
-            <input name="text2-color" type="color" value={optionsText2.color} onChange={handleTextColor} /><br/><br/>
-            <input type="text" name="text2"  placeholder={memeTexts.text2} onChange={handleTextinput} /><br/><br/>
+            <input 
+              name="text2-color" 
+              type="color" 
+              value={textState.text2.fontColor} 
+              onChange={handleTextColor} />
+            <br/><br/>
+            <input 
+              type="text" 
+              name="text2"  
+              placeholder='This here is the second text...' 
+              onChange={handleTextinput} />
+            <br/><br/>
         </div>
       </div>
       <button className="upload-btn" onClick={uploadImageHandler}>Upload image</button>
@@ -331,20 +398,20 @@ console.log(textState)
         <img style={{width: imageSize + 'px'}} src={meme.memes && meme.memes[memeCount].url} /><br/>
           <p className="meme-text-1" style={{
             top: textState && textState.text1.top, 
-            left: optionsText1.left, 
-            fontSize: optionsText1.fontSize, 
-            color: optionsText1.color, 
+            left: textState && textState.text1.left, 
+            fontSize: textState && textState.text1.fontSize, 
+            color: textState && textState.text1.color, 
             width: imageSize/2.2 + 'px'}} 
-            onChange={handleTextTop}>{memeTexts.text1}
+            onChange={handleTextTop}>{textState && textState.text1.text}
           </p>
           
           <p className="meme-text-2" style={{
             top: textState && textState.text2.top, 
-            left: optionsText2.left, 
-            fontSize: optionsText2.fontSize, 
-            color: optionsText2.color, 
+            left: textState && textState.text2.left, 
+            fontSize: textState && textState.text2.fontSize, 
+            color: textState && textState.text2.color, 
             width: imageSize/2.2 + 'px'}} 
-            onChange={handleTextTop}>{memeTexts.text2}
+            onChange={handleTextTop}>{textState && textState.text2.text}
           </p>
       </div>
       
