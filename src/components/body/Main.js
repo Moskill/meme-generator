@@ -1,19 +1,81 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import axios from 'axios';
 
+const ACTIONS = {
+  FETCH_MEMES: 'fetch-memes',
+  MEME_TEXT: 'meme-text',
+  TEXT1_TOP: 'text1-top',
+  TEXT2_TOP: 'text2-top',
+  IMAGE_SIZE: 'image-size',
+  IMAGE_UPLOAD:  'image-upaload',
+  SET_FILE: 'set-file'
+};
+
+const reducer = (state, action) => {
+  // console.log(action, ' + ', state);
+  switch (action.type) {
+    case 'text1-top':
+      console.log(action)
+      return {    
+        top: action.top + '%'
+      }
+      break;
+
+    case 'text2-top':
+      return {    
+        top: action.top + '%'
+      }
+      break;
+
+    default:
+      return {
+        top: 30 + '%', 
+        left: 0 + '%', 
+        fontSize: 18 + 'px', 
+        color: '#ffffff'
+      }
+  }
+}
+
 function Main() {
+  const [textState, dispatch] = useReducer(reducer, {
+    text1: {
+      top: 30 + '%', 
+      left: 0 + '%', 
+      fontSize: 18 + 'px', 
+      color: '#ffffff'
+    },
+    text2: {
+      top: 60 + '%', 
+      left: 0 + '%', 
+      fontSize: 18 + 'px', 
+      color: '#ffffff'
+    }
+  });
 
   const fetchUrl = 'https://api.imgflip.com/get_memes';
 
   const [meme, setMeme] = useState([]); 
   const [memeCount, setMemeCount] = useState(0);
   const [memeTexts, setMemeTexts] = useState({text1: 'Your first text here', text2: 'Your second text here'});
-  const [optionsText1, setOptionsText1] = useState({top: 30 + '%', left: 0 + '%', fontSize: 18 + 'px', color: '#ffffff'});
-  const [optionsText2, setOptionsText2] = useState({top: 60 + '%', left: 0 + '%', fontSize: 18 + 'px', color: '#ffffff'});
+  const [optionsText1, setOptionsText1] = useState(
+    {
+      top: 30 + '%', 
+      left: 0 + '%', 
+      fontSize: 18 + 'px', 
+      color: '#ffffff'
+    });
+  const [optionsText2, setOptionsText2] = useState(
+    {
+      top: 60 + '%', 
+      left: 0 + '%', 
+      fontSize: 18 + 'px', 
+      color: '#ffffff'
+    });
   const [imageSize, setImageSize] = useState();
   const [imageUpload, setImageUpload] = useState(false);
   const [file, setFile] = useState(null);
-  const [imageLoad, setImageLoad] = useState(null);
+  // const [imageLoad, setImageLoad] = useState(null);
 
   const fileUploadHandler = (e) => {
     setFile(e.target.files[0]);
@@ -26,21 +88,23 @@ function Main() {
     const data = new FormData();
     data.append('file', file);
 
+    console.log('In der Variable data steht: ', file)
+
     axios.post('http://localhost:8000/upload', data)
       .then((e) => {console.log('Success')})
-      .then(displayUploadedImage(file.name))
+      // .then(displayUploadedImage(file.name))
       .catch((e) => console.log(e))
   }
 
-  console.log(file);
+  // console.log(file);
 
-  const displayUploadedImage = (filename) => {
-    axios.get(`http://localhost:8000/upload/${filename}`)
-      .then(res => setImageLoad(res))
-      .catch(err => console.log('Error getting file!'))
-  }
+  // const displayUploadedImage = (filename) => {
+  //   axios.get(`http://localhost:8000/upload/${filename}`)
+  //     .then(res => setImageLoad(res))
+  //     .catch(err => console.log('Error getting file!'))
+  // }
 
-  console.log(`http://localhost:8000/upload/${imageLoad}`)
+  // console.log(`http://localhost:8000/upload/${file.name}`)
   
   useEffect(() => {
     fetch(fetchUrl)
@@ -58,42 +122,90 @@ function Main() {
   const handleTextinput = (e) => {
     console.log(e.target.name)
     if(e.target.name === 'text1') {
-      setMemeTexts({text1: e.target.value, text2: memeTexts.text2});
+      setMemeTexts({
+        text1: e.target.value, 
+        text2: memeTexts.text2}
+      );
     } else if(e.target.name === 'text2') {
-      setMemeTexts({text1: memeTexts.text1, text2: e.target.value});
+      setMemeTexts({
+        text1: memeTexts.text1, 
+        text2: e.target.value}
+      );
     }
   }
   
   const handleTextTop = (e) => {
-    console.log(e.target.name)
     if(e.target.name === 'text1-top') {
-      setOptionsText1({top: e.target.value + '%', left: optionsText1.left + '%', fontSize: optionsText1.fontSize + 'px', color: optionsText1.color})
+      console.log(textState)
+      dispatch({type: ACTIONS.TEXT1_TOP, top: e.target.value});
+
+      // setOptionsText1({
+      //   top: e.target.value + '%', 
+      //   left: optionsText1.left + '%', 
+      //   fontSize: optionsText1.fontSize + 'px', 
+      //   color: optionsText1.color}
+      // );
     } else if(e.target.name === 'text2-top') {
-      setOptionsText2({top: e.target.value + '%', left: optionsText2.left + '%', fontSize: optionsText2.fontSize + 'px', color: optionsText2.color})
+      setOptionsText2({
+        top: e.target.value + '%', 
+        left: optionsText2.left + '%', 
+        fontSize: optionsText2.fontSize + 'px', 
+        color: optionsText2.color}
+      );
     }
   }
   
   const handleTextLeft = (e) => {
     if(e.target.name === 'text1-left') {
-      setOptionsText1({top: optionsText1.top, left: e.target.value + '%', fontSize: optionsText1.fontSize + 'px', color: optionsText1.color})
+      setOptionsText1({
+        top: optionsText1.top, 
+        left: e.target.value + '%', 
+        fontSize: optionsText1.fontSize + 'px', 
+        color: optionsText1.color}
+      );
     } else if(e.target.name === 'text2-left') {
-      setOptionsText2({top: optionsText2.top, left: e.target.value + '%', fontSize: optionsText2.fontSize + 'px', color: optionsText2.color})
+      setOptionsText2({
+        top: optionsText2.top, 
+        left: e.target.value + '%', 
+        fontSize: optionsText2.fontSize + 'px', 
+        color: optionsText2.color}
+      );
     }
   }
   
   const handleTextFont = (e) => {
     if(e.target.name === 'text1-font') {
-      setOptionsText1({top: optionsText1.top, left: optionsText1.left + '%', fontSize: e.target.value + 'px', color: optionsText1.color})
+      setOptionsText1({
+        top: optionsText1.top, 
+        left: optionsText1.left + '%',
+        fontSize: e.target.value + 'px', 
+        color: optionsText1.color}
+      );
     } else if(e.target.name === 'text2-font') {
-      setOptionsText2({top: optionsText2.top, left: optionsText2.left + '%', fontSize: e.target.value + 'px', color: optionsText2.color})
+      setOptionsText2({
+        top: optionsText2.top, 
+        left: optionsText2.left + '%', 
+        fontSize: e.target.value + 'px', 
+        color: optionsText2.color}
+      );
     }
   }
 
   const handleTextColor = (e) => {
     if(e.target.name === 'text1-color') {
-      setOptionsText1({top: optionsText1.top, left: optionsText1.left + '%', fontSize: optionsText1.fontSize + 'px', color: e.target.value})
+      setOptionsText1({
+        top: optionsText1.top, 
+        left: optionsText1.left + '%', 
+        fontSize: optionsText1.fontSize + 'px', 
+        color: e.target.value}
+      );
     } else if(e.target.name === 'text2-color') {
-      setOptionsText2({top: optionsText2.top, left: optionsText2.left + '%', fontSize: optionsText2.fontSize + 'px', color: e.target.value})
+      setOptionsText2({
+        top: optionsText2.top, 
+        left: optionsText2.left + '%', 
+        fontSize: optionsText2.fontSize + 'px', 
+        color: e.target.value}
+      );
     }
   }
 
@@ -170,7 +282,7 @@ function Main() {
       <div className="random-meme">
         <img style={{width: imageSize + 'px'}} src={meme.memes && meme.memes[memeCount].url} /><br/>
           <p className="meme-text-1" style={{
-            top: optionsText1.top, 
+            top: textState.top, 
             left: optionsText1.left, 
             fontSize: optionsText1.fontSize, 
             color: optionsText1.color, 
