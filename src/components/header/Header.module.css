@@ -1,0 +1,11 @@
+.header-wrapper {
+  width: 100%;
+  height: 5rem;
+  background: #353535;
+  border-bottom: 4px solid #b30303;
+}
+
+.subheader-wrapper {
+  display: flex;
+  justify-content: center;
+}

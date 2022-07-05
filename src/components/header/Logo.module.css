@@ -1,0 +1,24 @@
+h1 {
+  margin: 0px;
+  color: white;
+}
+
+.logo-wrapper p {
+  color: white;
+  padding: 0px;
+  margin: 5px 0px 0px 0px;
+  font-size: 12px;
+}
+
+.logo-wrapper {
+  padding: 10px 10px;;
+}
+
+.logo-img {
+  line-height: 1.2;
+}
+
+.powered-text {
+  display: flex;
+  align-items: flex-start;
+}

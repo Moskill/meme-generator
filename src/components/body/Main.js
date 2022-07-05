@@ -169,14 +169,14 @@ const reducer = (state, action) => {
 function Main() {
   const [textState, dispatch] = useReducer(reducer, {
     text1: {
-      top: 30 + '%', 
+      top: 40 + '%', 
       left: 0 + '%', 
       fontSize: 18 + 'px', 
       color: '#ffffff',
       text: 'This is your first text...'
     },
     text2: {
-      top: 60 + '%', 
+      top: 70 + '%', 
       left: 0 + '%', 
       fontSize: 18 + 'px', 
       color: '#ffffff',
@@ -184,6 +184,7 @@ function Main() {
     }
   });
 
+  // Hier werden die Images per API gefetcht
   const fetchUrl = 'https://api.imgflip.com/get_memes';
 
   const [meme, setMeme] = useState([]); 
@@ -198,6 +199,7 @@ function Main() {
     console.log(e.target.files[0]) // Funzt das hier?
   }
 
+  // Hier ist der Upload für ein eigenes Bild
   const submitUploadFile = (e) => {
     e.preventDefault();
 
@@ -286,34 +288,38 @@ function Main() {
   
   return (
     <>
+    {console.log(parseInt(textState.text1.fontSize.substr(0,2)))}
       <div className="text-option">
         <div className="text1-options">
           <h3>Text 1</h3>
           <label for="text1-top">Top: </label>
           <input 
             name="text1-top" 
+            value={parseInt(textState.text1.top.substr(0,2))}
             type="range" 
             min="20" 
             max="100" 
-            step="0.3" 
+            step="1" 
             onChange={handleTextTop}/>
           <br/>
           <label for="text1-left">Left: </label>
             <input 
               name="text1-left" 
+              value={parseInt(textState.text1.left.substr(0,2))}
               type="range" 
               min="0" 
               max="20" 
-              step="0.3" 
+              step="1" 
               onChange={handleTextLeft}/>
             <br/>
           <label for="text1-font">Font-Size: </label>
             <input 
               name="text1-font" 
+              value={parseInt(textState.text1.fontSize.substr(0,2))}
               type="range" 
               min="20" 
               max="80" 
-              step="0.5" 
+              step="1" 
               onChange={handleTextFont}/>
             <br/>
           <label for="text1-color">Choose color: </label>
@@ -336,30 +342,33 @@ function Main() {
           <label for="text2-top">Top: </label>
             <input 
               name="text2-top" 
+              value={parseInt(textState.text2.top.substr(0,2))}
               type="range" 
               min="20" 
               max="100" 
-              step="0.3" 
+              step="1" 
               onChange={handleTextTop}/>
             <br/>
 
           <label for="text2-left">Left: </label>
             <input 
               name="text2-left" 
+              value={parseInt(textState.text1.left.substr(0,2))}
               type="range" 
               min="0" 
               max="20" 
-              step="0.3" 
+              step="1" 
               onChange={handleTextLeft}/>
             <br/>
 
           <label for="text2-font">Font-Size: </label>
             <input 
               name="text2-font" 
+              value={parseInt(textState.text2.fontSize.substr(0,2))}
               type="range" 
               min="20" 
               max="80" 
-              step="0.5" 
+              step="1" 
               onChange={handleTextFont}/>
             <br/>
           <label for="text2-color">Choose color: </label>
@@ -390,7 +399,7 @@ function Main() {
         <input 
           type="range" 
           name="image-height" 
-          min="0" max="1200" 
+          min="100" max="1200" 
           onChange={imageSizeHandler}
         />
 
