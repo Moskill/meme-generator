@@ -124,3 +124,12 @@ body{
   flex-direction: column;
   justify-content: flex-end;
 }
+
+canvas {
+  position: absolute;
+  left: 30%;
+  top: 32%;
+  z-index: 999;
+  background: #ccc;
+  border: 1px solid gray;
+}

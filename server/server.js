@@ -15,7 +15,8 @@ app.get('/upload/:pic', (req, res) =>{
     res.send(data)
   });
 });
-app.use(cors());
+
+app.use(cors({ origin: 'https://api.imgflip.com/get_memes' }));
 
 app.get('/', (req, res) => {
   res.status(200).send()
