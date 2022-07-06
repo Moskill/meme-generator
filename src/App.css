@@ -63,6 +63,7 @@ body{
 .text-option {
   display: flex;
   justify-content: space-evenly;
+  background: #ebebeb;
 }
 
 .text-option-form {
@@ -127,7 +128,7 @@ body{
 
 canvas {
   position: absolute;
-  left: 30%;
+  left: 33%;
   top: 32%;
   z-index: 999;
   background: #ccc;
