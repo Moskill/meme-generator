@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useReducer, createRef, useRef } from 'react';
+import { useScreenshot, createFileName } from 'use-react-screenshot';
+import html2canvas from 'html2canvas';
 import axios from 'axios';
 
 const ACTIONS = {
@@ -192,7 +194,16 @@ function Main() {
   const [imageSize, setImageSize] = useState();
   const [imageUpload, setImageUpload] = useState(false);
   const [file, setFile] = useState(null);
-  // const [imageLoad, setImageLoad] = useState(null);
+  
+  // Hier beginnt die ganze Meme Capture Geschichte
+  const ref = createRef();
+
+  const doCapture = () => {
+    html2canvas(ref.current, {letterRendering: 1, allowTaint : true}).then(canvas => {
+      document.body.appendChild(canvas)
+    })
+    console.log(ref.current)
+  }
 
   const fileUploadHandler = (e) => {
     setFile(e.target.files[0]);
@@ -344,6 +355,7 @@ function Main() {
               <button type="submit" >Upload</button>
             </form> 
           }
+           <button className="upload-btn" onClick={doCapture}>Capture</button>
           <br/>
           
           <label className="image-resize"  for="image-heigth">Resize Image</label>
@@ -405,52 +417,30 @@ function Main() {
         </div>
       </div>
       <div className="main-body" >
-        {/* <button className="upload-btn" onClick={uploadImageHandler}>Upload image</button>
-        {imageUpload && 
-          <form className="text-option-form" action="#" method="post" onSubmit={submitUploadFile}>
-            <input type="file" onChange={fileUploadHandler} />
-            <button type="submit" >Upload</button>
-          </form> 
-        }
-        <br/>
-        
-        <label className="image-resize"  for="image-heigth">Resize Image</label>
-          <input 
-            type="range" 
-            value={imageSize}
-            name="image-height" 
-            min="100" max="1200" 
-            onChange={imageSizeHandler}
-          /> */}
-
         <div className="random-meme">
         {memeCount !== 0 ? <div className="last-btn" onClick={handleLastMeme}>◀️</div> : <div className="last-btn" inactive="true">◀️</div>}
-          <img style={{width: imageSize + 'px'}} src={meme.memes && meme.memes[memeCount].url} /><br/>
-            <p className="meme-text-1" style={{
-              top: textState && textState.text1.top, 
-              left: textState && textState.text1.left, 
-              fontSize: textState && textState.text1.fontSize, 
-              color: textState && textState.text1.color, 
-              width: imageSize/1.2 + 'px'}} 
-              onChange={handleTextTop}>{textState && textState.text1.text}
-            </p>
-            
-            <p className="meme-text-2" style={{
-              top: textState && textState.text2.top, 
-              left: textState && textState.text2.left, 
-              fontSize: textState && textState.text2.fontSize, 
-              color: textState && textState.text2.color, 
-              width: imageSize/1.2 + 'px'}} 
-              onChange={handleTextTop}>{textState && textState.text2.text}
-            </p>
+          <div className="meme-container" ref={ref}>
+          <img style={{width: imageSize + 'px'}} src={meme.memes && meme.memes[memeCount].url} />
+              <p className="meme-text-1" style={{
+                top: textState && textState.text1.top, 
+                left: textState && textState.text1.left, 
+                fontSize: textState && textState.text1.fontSize, 
+                color: textState && textState.text1.color, 
+                width: imageSize/1.2 + 'px'}} 
+                onChange={handleTextTop}>{textState && textState.text1.text}
+              </p>
+              
+              <p className="meme-text-2" style={{
+                top: textState && textState.text2.top, 
+                left: textState && textState.text2.left, 
+                fontSize: textState && textState.text2.fontSize, 
+                color: textState && textState.text2.color, 
+                width: imageSize/1.2 + 'px'}} 
+                onChange={handleTextTop}>{textState && textState.text2.text}
+              </p>
+            </div>
             <div className="lat-btn-big" onClick={() => setMemeCount(memeCount + 1)}>▶️</div>
-
         </div>
-        
-        {/* <div className="pagination">
-          {memeCount !== 0 ? <div className="last-btn" onClick={handleLastMeme}>Back</div> : <div className="last-btn" inactive="true">Back</div>}
-          <div className="next-btn" onClick={() => setMemeCount(memeCount + 1)}>Next</div><br/><br/>
-        </div> */}
       </div>
     </>
   )
