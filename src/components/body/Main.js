@@ -169,7 +169,7 @@ const reducer = (state, action) => {
 function Main() {
   const [textState, dispatch] = useReducer(reducer, {
     text1: {
-      top: 40 + '%', 
+      top: 38 + '%', 
       left: 45 + '%', 
       fontSize: 18 + 'px', 
       color: '#ffffff',
@@ -297,8 +297,8 @@ function Main() {
             name="text1-top" 
             value={parseInt(textState.text1.top.substr(0,2))}
             type="range" 
-            min="40" 
-            max="50" 
+            min="35" 
+            max="90" 
             step="1" 
             onChange={handleTextTop}/>
           <br/>
@@ -308,7 +308,7 @@ function Main() {
               value={parseInt(textState.text1.left.substr(0,2))}
               type="range" 
               min="20" 
-              max="100" 
+              max="60" 
               step="1" 
               onChange={handleTextLeft}/>
             <br/>
@@ -336,7 +336,25 @@ function Main() {
               onChange={handleTextinput} />
             <br/><br/>
         </div>
-
+        <div className='upload-section'>
+          <button className="upload-btn" onClick={uploadImageHandler}>Upload image</button>
+          {imageUpload && 
+            <form className="text-option-form" action="#" method="post" onSubmit={submitUploadFile}>
+              <input type="file" onChange={fileUploadHandler} />
+              <button type="submit" >Upload</button>
+            </form> 
+          }
+          <br/>
+          
+          <label className="image-resize"  for="image-heigth">Resize Image</label>
+            <input 
+              type="range" 
+              value={imageSize}
+              name="image-height" 
+              min="100" max="1200" 
+              onChange={imageSizeHandler}
+            />
+        </div>
         <div className="text2-options">
           <h3>Text 2</h3>
           <label for="text2-top">Top: </label>
@@ -344,8 +362,8 @@ function Main() {
               name="text2-top" 
               value={parseInt(textState.text2.top.substr(0,2))}
               type="range" 
-              min="20" 
-              max="100" 
+              min="50" 
+              max="150" 
               step="1" 
               onChange={handleTextTop}/>
             <br/>
@@ -387,7 +405,7 @@ function Main() {
         </div>
       </div>
       <div className="main-body" >
-        <button className="upload-btn" onClick={uploadImageHandler}>Upload image</button>
+        {/* <button className="upload-btn" onClick={uploadImageHandler}>Upload image</button>
         {imageUpload && 
           <form className="text-option-form" action="#" method="post" onSubmit={submitUploadFile}>
             <input type="file" onChange={fileUploadHandler} />
@@ -396,23 +414,24 @@ function Main() {
         }
         <br/>
         
-        <label className="image-resize"  for="image-heigth">Resize Meme</label>
+        <label className="image-resize"  for="image-heigth">Resize Image</label>
           <input 
             type="range" 
             value={imageSize}
             name="image-height" 
             min="100" max="1200" 
             onChange={imageSizeHandler}
-          />
+          /> */}
 
         <div className="random-meme">
+        {memeCount !== 0 ? <div className="last-btn" onClick={handleLastMeme}>◀️</div> : <div className="last-btn" inactive="true">◀️</div>}
           <img style={{width: imageSize + 'px'}} src={meme.memes && meme.memes[memeCount].url} /><br/>
             <p className="meme-text-1" style={{
               top: textState && textState.text1.top, 
               left: textState && textState.text1.left, 
               fontSize: textState && textState.text1.fontSize, 
               color: textState && textState.text1.color, 
-              width: imageSize/2.2 + 'px'}} 
+              width: imageSize/1.2 + 'px'}} 
               onChange={handleTextTop}>{textState && textState.text1.text}
             </p>
             
@@ -421,15 +440,17 @@ function Main() {
               left: textState && textState.text2.left, 
               fontSize: textState && textState.text2.fontSize, 
               color: textState && textState.text2.color, 
-              width: imageSize/2.2 + 'px'}} 
+              width: imageSize/1.2 + 'px'}} 
               onChange={handleTextTop}>{textState && textState.text2.text}
             </p>
+            <div className="lat-btn-big" onClick={() => setMemeCount(memeCount + 1)}>▶️</div>
+
         </div>
         
-        <div className="pagination">
+        {/* <div className="pagination">
           {memeCount !== 0 ? <div className="last-btn" onClick={handleLastMeme}>Back</div> : <div className="last-btn" inactive="true">Back</div>}
           <div className="next-btn" onClick={() => setMemeCount(memeCount + 1)}>Next</div><br/><br/>
-        </div>
+        </div> */}
       </div>
     </>
   )
