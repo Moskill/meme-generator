@@ -2,6 +2,7 @@ import React, { useState, useEffect, useReducer, createRef, useRef } from 'react
 import { useScreenshot, createFileName } from 'use-react-screenshot';
 import html2canvas from 'html2canvas';
 import axios from 'axios';
+import TextOptions from './TextOptions';
 
 const ACTIONS = {
   FETCH_MEMES: 'fetch-memes',
@@ -198,11 +199,11 @@ function Main() {
   // Hier beginnt die ganze Meme Capture Geschichte
   const ref = createRef();
 
+  // Hier ist ide Capture Function
   const doCapture = () => {
     html2canvas(ref.current, {letterRendering: 1, allowTaint : true}).then(canvas => {
       document.body.appendChild(canvas)
     })
-    console.log(ref.current)
   }
 
   const fileUploadHandler = (e) => {
@@ -299,9 +300,34 @@ function Main() {
   
   return (
     <>
-    {console.log(parseInt(textState.text2.left.substr(0,2)))}
+    {/* {console.log(parseInt(textState.text2.left.substr(0,2)))} */}
       <div className="text-option">
-        <div className="text1-options">
+        <TextOptions 
+          valueTextTop={parseInt(textState.text1.top.substr(0,2))} 
+          valueTextLeft={parseInt(textState.text1.left.substr(0,2))}
+          valueFontSize={parseInt(textState.text1.fontSize.substr(0,2))}
+          valueTextColor={textState.text1.fontColor} 
+          onChangeTop={handleTextTop}
+          onChangeLeft={handleTextLeft}
+          onChangeFont={handleTextFont}
+          onChangeColor={handleTextColor}
+          onChangeInput={handleTextinput}
+          textNumber={1}
+        />
+        
+        <TextOptions 
+          valueTextTop={parseInt(textState.text2.top.substr(0,2))} 
+          valueTextLeft={parseInt(textState.text2.left.substr(0,2))}
+          valueFontSize={parseInt(textState.text2.fontSize.substr(0,2))}
+          valueTextColor={textState.text2.fontColor} 
+          onChangeTop={handleTextTop}
+          onChangeLeft={handleTextLeft}
+          onChangeFont={handleTextFont}
+          onChangeColor={handleTextColor}
+          onChangeInput={handleTextinput}
+          textNumber={2}
+        />
+        {/* <div className="text1-options">
           <h3>Text 1</h3>
           <label for="text1-top">Top: </label>
           <input 
@@ -346,28 +372,9 @@ function Main() {
               placeholder='This here ist the first text...' 
               onChange={handleTextinput} />
             <br/><br/>
-        </div>
-        <div className='upload-section'>
-          <button className="upload-btn" onClick={uploadImageHandler}>Upload image</button>
-          {imageUpload && 
-            <form className="text-option-form" action="#" method="post" onSubmit={submitUploadFile}>
-              <input type="file" onChange={fileUploadHandler} />
-              <button type="submit" >Upload</button>
-            </form> 
-          }
-           <button className="upload-btn" onClick={doCapture}>Capture</button>
-          <br/>
-          
-          <label className="image-resize"  for="image-heigth">Resize Image</label>
-            <input 
-              type="range" 
-              value={imageSize}
-              name="image-height" 
-              min="100" max="1200" 
-              onChange={imageSizeHandler}
-            />
-        </div>
-        <div className="text2-options">
+        </div> */}
+        
+        {/* <div className="text2-options">
           <h3>Text 2</h3>
           <label for="text2-top">Top: </label>
             <input 
@@ -414,6 +421,26 @@ function Main() {
               placeholder='This here is the second text...' 
               onChange={handleTextinput} />
             <br/><br/>
+        </div> */}
+        <div className='upload-section'>
+          <button className="upload-btn" onClick={uploadImageHandler}>Upload image</button>
+          {imageUpload && 
+            <form className="text-option-form" action="#" method="post" onSubmit={submitUploadFile}>
+              <input type="file" onChange={fileUploadHandler} />
+              <button type="submit" >Upload</button>
+            </form> 
+          }
+           <button className="upload-btn" onClick={doCapture}>Capture</button>
+          <br/>
+          
+          <label className="image-resize"  for="image-heigth">Resize Image</label>
+            <input 
+              type="range" 
+              value={imageSize}
+              name="image-height" 
+              min="100" max="1200" 
+              onChange={imageSizeHandler}
+            />
         </div>
       </div>
       <div className="main-body" >
