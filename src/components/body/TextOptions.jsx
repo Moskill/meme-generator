@@ -5,7 +5,7 @@ const TextOptions = (props) => {
   return (
     <>
       <div className={props.textNumber + "-options"}>
-        <h3>Text {props.textNumber}</h3>
+        <h3>Text {props.textNumber}<div className={classes['close-btn']} onClick={() => props.onCloseTextField(props.textCount - 1)}>x</div></h3>
         <label htmlFor={"text" + props.textNumber + "-top"}>Top: </label>
         <input 
           name={"text" + props.textNumber} 

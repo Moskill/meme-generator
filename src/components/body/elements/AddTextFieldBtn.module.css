@@ -1,0 +1,19 @@
+.btn-container {
+  display: flex;
+  align-items: center;
+}
+.add-btn {
+  height: 3rem; 
+  width: 3rem;
+  color: white;
+  background: rgb(11, 133, 209);
+  font-weight: 700;
+  font-size: 28px;
+  border-radius: 5px;
+  border: 2px solid darkblue;
+  cursor: pointer;
+}
+
+.add-btn:hover {
+  background:rgb(9, 118, 185)
+}
