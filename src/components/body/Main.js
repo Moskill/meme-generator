@@ -21,152 +21,265 @@ const ACTIONS = {
   SET_FILE: 'set-file'
 };
 
+const editObject = {
+  field: 'textField1',
+  action: 'fontSize',
+  value: 50 + "%"
+}
+
 const reducer = (state, action) => {
-  console.log(state)
-  switch (action.type) {
-    case 'text1-top':
-      return {    
-        text1: {
-          top: action.top + '%',
-          left: state.text1.left, 
-          fontSize: state.text1.fontSize, 
-          color: state.text1.color,
-          text: state.text1.text
+  switch(action['field']) {
+    case 'text1': 
+      return {
+        text1:{
+          top: action['action'] === 'top' ? action['value'] + '%' : state.text1.top, 
+          left: action['action'] === 'left' ? action['value'] + '%' : state.text1.left, 
+          fontSize: action['action'] === 'fontSize' ? action['value'] + 'px' : state.text1.fontSize, 
+          color: action['action'] === 'color' ? action['value'] : state.text1.color,
+          text: action['action'] === 'text' ? action['value'] : state.text1.text
+
         },
-        text2: {...state.text2}
+        text2: {...state.text2},
+        text3: {...state.text3},
+        text4: {...state.text4}
+      }
+      
+    case 'text2': 
+      return {
+        text1: {...state.text1},
+        text2:{
+          top: action['action'] === 'top' ? action['value'] + '%' : state.text2.top, 
+          left: action['action'] === 'left' ? action['value'] + '%' : state.text2.left, 
+          fontSize: action['action'] === 'fontSize' ? action['value'] + 'px' : state.text2.fontSize, 
+          color: action['action'] === 'color' ? action['value'] : state.text2.color,
+          text: action['action'] === 'text' ? action['value'] : state.text2.text
+        },
+        text3: {...state.text3},
+        text4: {...state.text4}
       }
 
-    case 'text2-top':
-      return {  
+    case 'text3': 
+      return {
         text1: {...state.text1},
-        
-        text2: {  
-          top: action.top + '%',
-          left: state.text2.left, 
-          fontSize: state.text2.fontSize, 
-          color: state.text2.color,
-          text: state.text2.text
+        text2: {...state.text2},
+        text3:{
+          top: action['action'] === 'top' ? action['value'] + '%' : state.text3.top, 
+          left: action['action'] === 'left' ? action['value'] + '%' : state.text3.left, 
+          fontSize: action['action'] === 'fontSize' ? action['value'] + 'px' : state.text3.fontSize, 
+          color: action['action'] === 'color' ? action['value'] : state.text3.color,
+          text: action['action'] === 'text' ? action['value'] : state.text3.text
+        },
+        text4: {...state.text4}
+      }
+
+    case 'text4': 
+      return {
+        text1: {...state.text1},
+        text2: {...state.text2},
+        text3: {...state.text3},
+        text4:{
+          top: action['action'] === 'top' ? action['value'] + '%' : state.text4.top, 
+          left: action['action'] === 'left' ? action['value'] + '%' : state.text4.left, 
+          fontSize: action['action'] === 'fontSize' ? action['value'] + 'px' : state.text4.fontSize, 
+          color: action['action'] === 'color' ? action['value'] : state.text4.color,
+          text: action['action'] === 'text' ? action['value'] : state.text4.text
         }
       }
-
-    case 'text1-left':
-      return {    
-        text1: {
-          top: state.text1.top,
-          left: action.left, 
-          fontSize: state.text1.fontSize, 
-          color: state.text1.color,
-          text: state.text1.text
-        },
-        text2: {...state.text2}
-      }
-
-    case 'text2-left':
-      return {  
-        text1: {...state.text1},
-        
-        text2: {  
-          top: state.text2.top,
-          left: action.left, 
-          fontSize: state.text2.fontSize, 
-          color: state.text2.color,
-          text: state.text2.text
-        }
-      }
-
-    case 'text1-font':
-      return {    
-        text1: {
-          top: state.text1.top,
-          left: state.text1.left, 
-          fontSize: action.fontSize, 
-          color: state.text1.color,
-          text: state.text1.text
-        },
-        text2: {...state.text2}
-      }
-
-    case 'text2-font':
-      return {  
-        text1: {...state.text1},
-        
-        text2: {  
-          top: state.text2.top,
-          left: state.text2.left, 
-          fontSize: action.fontSize, 
-          color: state.text2.color,
-          text: state.text2.text
-        }
-      }
-
-    case 'text1-color':
-      return {    
-        text1: {
-          top: state.text1.top,
-          left: state.text1.left, 
-          fontSize: state.text1.fontSize, 
-          color: action.fontColor,
-          text: state.text1.text
-        },
-        text2: {...state.text2}
-      }
-
-    case 'text2-color':
-      return {  
-        text1: {...state.text1},
-        
-        text2: {  
-          top: state.text2.top,
-          left: state.text2.left, 
-          fontSize: state.text2.fontSize, 
-          color: action.fontColor,
-          text: state.text2.text
-        }
-      }
-
-    case 'meme-text1':
-      return {    
-        text1: {
-          top: state.text1.top,
-          left: state.text1.left, 
-          fontSize: state.text1.fontSize, 
-          color: state.text1.fontColor,
-          text: action.text
-        },
-        text2: {...state.text2}
-      }
-
-    case 'meme-text2':
-      return {  
-        text1: {...state.text1},
-        
-        text2: {  
-          top: state.text2.top,
-          left: state.text2.left, 
-          fontSize: state.text2.fontSize, 
-          color: state.text1.fontColor,
-          text: action.text
-        }
-      }
-
+    
     default:
       return {
         text1: {
-          top: 30 + '%', 
-          left: 0 + '%', 
+          top: 38 + '%', 
+          left: 45 + '%', 
           fontSize: 18 + 'px', 
-          color: '#ffffff',
+          color: 'ffffff',
           text: 'Your first text here!'
         },
         text2: {
-          top: 60 + '%', 
+          top: 70 + '%', 
+          left: 45 + '%', 
+          fontSize: 18 + 'px', 
+          color: '#ffffff',
+          text: 'Your second text here!'
+        },
+        text3: {
+          top: 80 + '%', 
+          left: 0 + '%', 
+          fontSize: 18 + 'px', 
+          color: '#ffffff',
+          text: 'Your second text here!'
+        },
+        text4: {
+          top: 90 + '%', 
           left: 0 + '%', 
           fontSize: 18 + 'px', 
           color: '#ffffff',
           text: 'Your second text here!'
         }
       }
-  }
+          }
+            
+            
+  // switch (action.type) {
+  //   case "text1-top":
+  //     return {    
+  //       text1: {
+  //         top: action.top + '%',
+  //         left: state.text1.left, 
+  //         fontSize: state.text1.fontSize, 
+  //         color: state.text1.color,
+  //         text: state.text1.text
+  //       },
+  //       text2: {...state.text2},
+  //       text3: {...state.text3},
+  //       text5: {...state.text4}
+  //     }
+
+  //   case 'text2-top':
+  //     return {  
+  //       text1: {...state.text1},
+        
+  //       text2: {  
+  //         top: action.top + '%',
+  //         left: state.text2.left, 
+  //         fontSize: state.text2.fontSize, 
+  //         color: state.text2.color,
+  //         text: state.text2.text
+  //       }
+  //     }
+
+  //   case 'text1-left':
+  //     return {    
+  //       text1: {
+  //         top: state.text1.top,
+  //         left: action.left, 
+  //         fontSize: state.text1.fontSize, 
+  //         color: state.text1.color,
+  //         text: state.text1.text
+  //       },
+  //       text2: {...state.text2}
+  //     }
+
+  //   case 'text2-left':
+  //     return {  
+  //       text1: {...state.text1},
+        
+  //       text2: {  
+  //         top: state.text2.top,
+  //         left: action.left, 
+  //         fontSize: state.text2.fontSize, 
+  //         color: state.text2.color,
+  //         text: state.text2.text
+  //       }
+  //     }
+
+  //   case 'text1-font':
+  //     return {    
+  //       text1: {
+  //         top: state.text1.top,
+  //         left: state.text1.left, 
+  //         fontSize: action.fontSize, 
+  //         color: state.text1.color,
+  //         text: state.text1.text
+  //       },
+  //       text2: {...state.text2}
+  //     }
+
+  //   case 'text2-font':
+  //     return {  
+  //       text1: {...state.text1},
+        
+  //       text2: {  
+  //         top: state.text2.top,
+  //         left: state.text2.left, 
+  //         fontSize: action.fontSize, 
+  //         color: state.text2.color,
+  //         text: state.text2.text
+  //       }
+  //     }
+
+  //   case 'text1-color':
+  //     return {    
+  //       text1: {
+  //         top: state.text1.top,
+  //         left: state.text1.left, 
+  //         fontSize: state.text1.fontSize, 
+  //         color: action.fontColor,
+  //         text: state.text1.text
+  //       },
+  //       text2: {...state.text2}
+  //     }
+
+  //   case 'text2-color':
+  //     return {  
+  //       text1: {...state.text1},
+        
+  //       text2: {  
+  //         top: state.text2.top,
+  //         left: state.text2.left, 
+  //         fontSize: state.text2.fontSize, 
+  //         color: action.fontColor,
+  //         text: state.text2.text
+  //       }
+  //     }
+
+  //   case 'meme-text1':
+  //     return {    
+  //       text1: {
+  //         top: state.text1.top,
+  //         left: state.text1.left, 
+  //         fontSize: state.text1.fontSize, 
+  //         color: state.text1.fontColor,
+  //         text: action.text
+  //       },
+  //       text2: {...state.text2}
+  //     }
+
+  //   case 'meme-text2':
+  //     return {  
+  //       text1: {...state.text1},
+        
+  //       text2: {  
+  //         top: state.text2.top,
+  //         left: state.text2.left, 
+  //         fontSize: state.text2.fontSize, 
+  //         color: state.text1.fontColor,
+  //         text: action.text
+  //       }
+  //     }
+
+  //   default:
+  //     return {
+  //       text1: {
+  //         top: 38 + '%', 
+  //         left: 45 + '%', 
+  //         fontSize: 18 + 'px', 
+  //         color: '#ffffff',
+  //         text: 'Your first text here!'
+  //       },
+  //       text2: {
+  //         top: 70 + '%', 
+  //         left: 45 + '%', 
+  //         fontSize: 18 + 'px', 
+  //         color: '#ffffff',
+  //         text: 'Your second text here!'
+  //       },
+  //       text3: {
+  //         top: 80 + '%', 
+  //         left: 0 + '%', 
+  //         fontSize: 18 + 'px', 
+  //         color: '#ffffff',
+  //         text: 'Your second text here!'
+  //       },
+  //       text4: {
+  //         top: 90 + '%', 
+  //         left: 0 + '%', 
+  //         fontSize: 18 + 'px', 
+  //         color: '#ffffff',
+  //         text: 'Your second text here!'
+  //       }
+  //     }
+  // }
 }
 
 function Main() {
@@ -175,7 +288,7 @@ function Main() {
       top: 38 + '%', 
       left: 45 + '%', 
       fontSize: 18 + 'px', 
-      color: '#ffffff',
+      color: 'ffffff',
       text: 'This is your first text...'
     },
     text2: {
@@ -184,6 +297,20 @@ function Main() {
       fontSize: 18 + 'px', 
       color: '#ffffff',
       text: 'This is your second text...'
+    },
+    text3: {
+      top: 80 + '%', 
+      left: 45 + '%', 
+      fontSize: 18 + 'px', 
+      color: '#ffffff',
+      text: 'This is your 3rd text...'
+    },
+    text4: {
+      top: 90 + '%', 
+      left: 45 + '%', 
+      fontSize: 18 + 'px', 
+      color: '#ffffff',
+      text: 'This is your 4th text...'
     }
   });
 
@@ -199,7 +326,7 @@ function Main() {
   // Hier beginnt die ganze Meme Capture Geschichte
   const ref = createRef();
 
-  // Hier ist ide Capture Function
+  // Hier ist die Capture Function
   const doCapture = () => {
     html2canvas(ref.current, {letterRendering: 1, allowTaint : true}).then(canvas => {
       document.body.appendChild(canvas)
@@ -208,7 +335,6 @@ function Main() {
 
   const fileUploadHandler = (e) => {
     setFile(e.target.files[0]);
-    console.log(e.target.files[0]) // Funzt das hier?
   }
 
   // Hier ist der Upload für ein eigenes Bild
@@ -259,35 +385,22 @@ function Main() {
   }
   
   const handleTextTop = (e) => {
-    if(e.target.name === 'text1-top') {
-      dispatch({type: ACTIONS.TEXT1_TOP, top: e.target.value});
-    } else if(e.target.name === 'text2-top') {
-      dispatch({type: ACTIONS.TEXT2_TOP, top: e.target.value});
-    }
+    dispatch({field: e.target.name, action: 'top', value: e.target.value});
+
   }
   
   const handleTextLeft = (e) => {
-    if(e.target.name === 'text1-left') {
-      dispatch({type: ACTIONS.TEXT1_LEFT, left: e.target.value + '%'});
-    } else if(e.target.name === 'text2-left') {
-      dispatch({type: ACTIONS.TEXT2_LEFT, left:  e.target.value + '%'});
-    }
+    dispatch({field: e.target.name, action: 'left', value: e.target.value})
+
   }
   
   const handleTextFont = (e) => {
-    if(e.target.name === 'text1-font') {
-      dispatch({type: ACTIONS.TEXT1_FONT, fontSize: e.target.value + 'px'});
-    } else if(e.target.name === 'text2-font') {
-      dispatch({type: ACTIONS.TEXT2_FONT, fontSize: e.target.value + 'px'});
-    }
+    dispatch({field: e.target.name, action: 'fontSize', value: e.target.value})
   }
 
   const handleTextColor = (e) => {
-    if(e.target.name === 'text1-color') {
-      dispatch({type: ACTIONS.TEXT1_COLOR, fontColor: e.target.value});
-    } else if(e.target.name === 'text2-color') {
-      dispatch({type: ACTIONS.TEXT2_COLOR, fontColor: e.target.value});
-    }
+    dispatch({field: e.target.name, action: 'color', value: e.target.value})
+
   }
 
   const imageSizeHandler = (e) => {
@@ -314,7 +427,7 @@ function Main() {
           onChangeInput={handleTextinput}
           textNumber={1}
         />
-        
+
         <TextOptions 
           valueTextTop={parseInt(textState.text2.top.substr(0,2))} 
           valueTextLeft={parseInt(textState.text2.left.substr(0,2))}
@@ -327,101 +440,33 @@ function Main() {
           onChangeInput={handleTextinput}
           textNumber={2}
         />
-        {/* <div className="text1-options">
-          <h3>Text 1</h3>
-          <label for="text1-top">Top: </label>
-          <input 
-            name="text1-top" 
-            value={parseInt(textState.text1.top.substr(0,2))}
-            type="range" 
-            min="35" 
-            max="90" 
-            step="1" 
-            onChange={handleTextTop}/>
-          <br/>
-          <label for="text1-left">Left: </label>
-            <input 
-              name="text1-left" 
-              value={parseInt(textState.text1.left.substr(0,2))}
-              type="range" 
-              min="20" 
-              max="60" 
-              step="1" 
-              onChange={handleTextLeft}/>
-            <br/>
-          <label for="text1-font">Font-Size: </label>
-            <input 
-              name="text1-font" 
-              value={parseInt(textState.text1.fontSize.substr(0,2))}
-              type="range" 
-              min="20" 
-              max="80" 
-              step="1" 
-              onChange={handleTextFont}/>
-            <br/>
-          <label for="text1-color">Choose color: </label>
-            <input 
-              name="text1-color" 
-              type="color" 
-              value={textState.text1.fontColor} 
-              onChange={handleTextColor} />
-              <br/><br/>
-            <input 
-              type="text" 
-              name="text1" 
-              placeholder='This here ist the first text...' 
-              onChange={handleTextinput} />
-            <br/><br/>
-        </div> */}
-        
-        {/* <div className="text2-options">
-          <h3>Text 2</h3>
-          <label for="text2-top">Top: </label>
-            <input 
-              name="text2-top" 
-              value={parseInt(textState.text2.top.substr(0,2))}
-              type="range" 
-              min="50" 
-              max="150" 
-              step="1" 
-              onChange={handleTextTop}/>
-            <br/>
 
-          <label for="text2-left">Left: </label>
-            <input 
-              name="text2-left" 
-              value={parseInt(textState.text2.left.substr(0,2))}
-              type="range" 
-              min="20" 
-              max="100" 
-              step="1" 
-              onChange={handleTextLeft}/>
-            <br/>
+        <TextOptions 
+          valueTextTop={parseInt(textState.text3.top.substr(0,2))} 
+          valueTextLeft={parseInt(textState.text3.left.substr(0,2))}
+          valueFontSize={parseInt(textState.text3.fontSize.substr(0,2))}
+          valueTextColor={textState.text3.fontColor} 
+          onChangeTop={handleTextTop}
+          onChangeLeft={handleTextLeft}
+          onChangeFont={handleTextFont}
+          onChangeColor={handleTextColor}
+          onChangeInput={handleTextinput}
+          textNumber={3}
+        />
 
-          <label for="text2-font">Font-Size: </label>
-            <input 
-              name="text2-font" 
-              value={parseInt(textState.text2.fontSize.substr(0,2))}
-              type="range" 
-              min="20" 
-              max="80" 
-              step="1" 
-              onChange={handleTextFont}/>
-            <br/>
-          <label for="text2-color">Choose color: </label>
-            <input 
-              name="text2-color" 
-              type="color" 
-              value={textState.text2.fontColor} 
-              onChange={handleTextColor} />
-            <br/><br/>
-            <input 
-              type="text" 
-              name="text2"  
-              placeholder='This here is the second text...' 
-              onChange={handleTextinput} />
-            <br/><br/>
-        </div> */}
+        <TextOptions 
+          valueTextTop={parseInt(textState.text4.top.substr(0,2))} 
+          valueTextLeft={parseInt(textState.text4.left.substr(0,2))}
+          valueFontSize={parseInt(textState.text4.fontSize.substr(0,2))}
+          valueTextColor={textState.text4.fontColor} 
+          onChangeTop={handleTextTop}
+          onChangeLeft={handleTextLeft}
+          onChangeFont={handleTextFont}
+          onChangeColor={handleTextColor}
+          onChangeInput={handleTextinput}
+          textNumber={4}
+        />
+
         <div className='upload-section'>
           <button className="upload-btn" onClick={uploadImageHandler}>Upload image</button>
           {imageUpload && 
@@ -464,6 +509,24 @@ function Main() {
                 color: textState && textState.text2.color, 
                 width: imageSize/1.2 + 'px'}} 
                 onChange={handleTextTop}>{textState && textState.text2.text}
+              </p>
+
+              <p className="meme-text-2" style={{
+                top: textState && textState.text3.top, 
+                left: textState && textState.text3.left, 
+                fontSize: textState && textState.text3.fontSize, 
+                color: textState && textState.text3.color, 
+                width: imageSize/1.2 + 'px'}} 
+                onChange={handleTextTop}>{textState && textState.text3.text}
+              </p>
+
+              <p className="meme-text-2" style={{
+                top: textState && textState.text4.top, 
+                left: textState && textState.text4.left, 
+                fontSize: textState && textState.text4.fontSize, 
+                color: textState && textState.text4.color, 
+                width: imageSize/1.2 + 'px'}} 
+                onChange={handleTextTop}>{textState && textState.text4.text}
               </p>
             </div>
             <div className="lat-btn-big" onClick={() => setMemeCount(memeCount + 1)}>▶️</div>
