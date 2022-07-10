@@ -3,6 +3,7 @@ import { useScreenshot, createFileName } from 'use-react-screenshot';
 import html2canvas from 'html2canvas';
 import axios from 'axios';
 import TextOptions from './TextOptions';
+import AddTextFieldBtn from './elements/AddTextFieldBtn';
 
 const ACTIONS = {
   FETCH_MEMES: 'fetch-memes',
@@ -21,12 +22,6 @@ const ACTIONS = {
   SET_FILE: 'set-file'
 };
 
-const editObject = {
-  field: 'textField1',
-  action: 'fontSize',
-  value: 50 + "%"
-}
-
 const reducer = (state, action) => {
   switch(action['field']) {
     case 'text1': 
@@ -37,7 +32,6 @@ const reducer = (state, action) => {
           fontSize: action['action'] === 'fontSize' ? action['value'] + 'px' : state.text1.fontSize, 
           color: action['action'] === 'color' ? action['value'] : state.text1.color,
           text: action['action'] === 'text' ? action['value'] : state.text1.text
-
         },
         text2: {...state.text2},
         text3: {...state.text3},
@@ -117,169 +111,7 @@ const reducer = (state, action) => {
           text: 'Your second text here!'
         }
       }
-          }
-            
-            
-  // switch (action.type) {
-  //   case "text1-top":
-  //     return {    
-  //       text1: {
-  //         top: action.top + '%',
-  //         left: state.text1.left, 
-  //         fontSize: state.text1.fontSize, 
-  //         color: state.text1.color,
-  //         text: state.text1.text
-  //       },
-  //       text2: {...state.text2},
-  //       text3: {...state.text3},
-  //       text5: {...state.text4}
-  //     }
-
-  //   case 'text2-top':
-  //     return {  
-  //       text1: {...state.text1},
-        
-  //       text2: {  
-  //         top: action.top + '%',
-  //         left: state.text2.left, 
-  //         fontSize: state.text2.fontSize, 
-  //         color: state.text2.color,
-  //         text: state.text2.text
-  //       }
-  //     }
-
-  //   case 'text1-left':
-  //     return {    
-  //       text1: {
-  //         top: state.text1.top,
-  //         left: action.left, 
-  //         fontSize: state.text1.fontSize, 
-  //         color: state.text1.color,
-  //         text: state.text1.text
-  //       },
-  //       text2: {...state.text2}
-  //     }
-
-  //   case 'text2-left':
-  //     return {  
-  //       text1: {...state.text1},
-        
-  //       text2: {  
-  //         top: state.text2.top,
-  //         left: action.left, 
-  //         fontSize: state.text2.fontSize, 
-  //         color: state.text2.color,
-  //         text: state.text2.text
-  //       }
-  //     }
-
-  //   case 'text1-font':
-  //     return {    
-  //       text1: {
-  //         top: state.text1.top,
-  //         left: state.text1.left, 
-  //         fontSize: action.fontSize, 
-  //         color: state.text1.color,
-  //         text: state.text1.text
-  //       },
-  //       text2: {...state.text2}
-  //     }
-
-  //   case 'text2-font':
-  //     return {  
-  //       text1: {...state.text1},
-        
-  //       text2: {  
-  //         top: state.text2.top,
-  //         left: state.text2.left, 
-  //         fontSize: action.fontSize, 
-  //         color: state.text2.color,
-  //         text: state.text2.text
-  //       }
-  //     }
-
-  //   case 'text1-color':
-  //     return {    
-  //       text1: {
-  //         top: state.text1.top,
-  //         left: state.text1.left, 
-  //         fontSize: state.text1.fontSize, 
-  //         color: action.fontColor,
-  //         text: state.text1.text
-  //       },
-  //       text2: {...state.text2}
-  //     }
-
-  //   case 'text2-color':
-  //     return {  
-  //       text1: {...state.text1},
-        
-  //       text2: {  
-  //         top: state.text2.top,
-  //         left: state.text2.left, 
-  //         fontSize: state.text2.fontSize, 
-  //         color: action.fontColor,
-  //         text: state.text2.text
-  //       }
-  //     }
-
-  //   case 'meme-text1':
-  //     return {    
-  //       text1: {
-  //         top: state.text1.top,
-  //         left: state.text1.left, 
-  //         fontSize: state.text1.fontSize, 
-  //         color: state.text1.fontColor,
-  //         text: action.text
-  //       },
-  //       text2: {...state.text2}
-  //     }
-
-  //   case 'meme-text2':
-  //     return {  
-  //       text1: {...state.text1},
-        
-  //       text2: {  
-  //         top: state.text2.top,
-  //         left: state.text2.left, 
-  //         fontSize: state.text2.fontSize, 
-  //         color: state.text1.fontColor,
-  //         text: action.text
-  //       }
-  //     }
-
-  //   default:
-  //     return {
-  //       text1: {
-  //         top: 38 + '%', 
-  //         left: 45 + '%', 
-  //         fontSize: 18 + 'px', 
-  //         color: '#ffffff',
-  //         text: 'Your first text here!'
-  //       },
-  //       text2: {
-  //         top: 70 + '%', 
-  //         left: 45 + '%', 
-  //         fontSize: 18 + 'px', 
-  //         color: '#ffffff',
-  //         text: 'Your second text here!'
-  //       },
-  //       text3: {
-  //         top: 80 + '%', 
-  //         left: 0 + '%', 
-  //         fontSize: 18 + 'px', 
-  //         color: '#ffffff',
-  //         text: 'Your second text here!'
-  //       },
-  //       text4: {
-  //         top: 90 + '%', 
-  //         left: 0 + '%', 
-  //         fontSize: 18 + 'px', 
-  //         color: '#ffffff',
-  //         text: 'Your second text here!'
-  //       }
-  //     }
-  // }
+  }
 }
 
 function Main() {
@@ -322,6 +154,7 @@ function Main() {
   const [imageSize, setImageSize] = useState();
   const [imageUpload, setImageUpload] = useState(false);
   const [file, setFile] = useState(null);
+  const [textCount, setTextCount] = useState(1);
   
   // Hier beginnt die ganze Meme Capture Geschichte
   const ref = createRef();
@@ -374,7 +207,6 @@ function Main() {
     setMemeCount(memeCount - 1);
   }
 
-  // Options for Text1 START
   const handleTextinput = (e) => {
     console.log(e.target.name)
     if(e.target.name === 'text1') {
@@ -386,12 +218,10 @@ function Main() {
   
   const handleTextTop = (e) => {
     dispatch({field: e.target.name, action: 'top', value: e.target.value});
-
   }
   
   const handleTextLeft = (e) => {
     dispatch({field: e.target.name, action: 'left', value: e.target.value})
-
   }
   
   const handleTextFont = (e) => {
@@ -400,7 +230,6 @@ function Main() {
 
   const handleTextColor = (e) => {
     dispatch({field: e.target.name, action: 'color', value: e.target.value})
-
   }
 
   const imageSizeHandler = (e) => {
@@ -413,7 +242,7 @@ function Main() {
   
   return (
     <>
-    {/* {console.log(parseInt(textState.text2.left.substr(0,2)))} */}
+      {/* Die Text-Edit-Felder */}
       <div className="text-option">
         <TextOptions 
           valueTextTop={parseInt(textState.text1.top.substr(0,2))} 
@@ -426,46 +255,60 @@ function Main() {
           onChangeColor={handleTextColor}
           onChangeInput={handleTextinput}
           textNumber={1}
+          textCount={textCount} 
+          onCloseTextField={setTextCount}
         />
 
-        <TextOptions 
-          valueTextTop={parseInt(textState.text2.top.substr(0,2))} 
-          valueTextLeft={parseInt(textState.text2.left.substr(0,2))}
-          valueFontSize={parseInt(textState.text2.fontSize.substr(0,2))}
-          valueTextColor={textState.text2.fontColor} 
-          onChangeTop={handleTextTop}
-          onChangeLeft={handleTextLeft}
-          onChangeFont={handleTextFont}
-          onChangeColor={handleTextColor}
-          onChangeInput={handleTextinput}
-          textNumber={2}
-        />
-
-        <TextOptions 
-          valueTextTop={parseInt(textState.text3.top.substr(0,2))} 
-          valueTextLeft={parseInt(textState.text3.left.substr(0,2))}
-          valueFontSize={parseInt(textState.text3.fontSize.substr(0,2))}
-          valueTextColor={textState.text3.fontColor} 
-          onChangeTop={handleTextTop}
-          onChangeLeft={handleTextLeft}
-          onChangeFont={handleTextFont}
-          onChangeColor={handleTextColor}
-          onChangeInput={handleTextinput}
-          textNumber={3}
-        />
-
-        <TextOptions 
-          valueTextTop={parseInt(textState.text4.top.substr(0,2))} 
-          valueTextLeft={parseInt(textState.text4.left.substr(0,2))}
-          valueFontSize={parseInt(textState.text4.fontSize.substr(0,2))}
-          valueTextColor={textState.text4.fontColor} 
-          onChangeTop={handleTextTop}
-          onChangeLeft={handleTextLeft}
-          onChangeFont={handleTextFont}
-          onChangeColor={handleTextColor}
-          onChangeInput={handleTextinput}
-          textNumber={4}
-        />
+        {textCount > 1 && (
+          <TextOptions 
+            valueTextTop={parseInt(textState.text2.top.substr(0,2))} 
+            valueTextLeft={parseInt(textState.text2.left.substr(0,2))}
+            valueFontSize={parseInt(textState.text2.fontSize.substr(0,2))}
+            valueTextColor={textState.text2.fontColor} 
+            onChangeTop={handleTextTop}
+            onChangeLeft={handleTextLeft}
+            onChangeFont={handleTextFont}
+            onChangeColor={handleTextColor}
+            onChangeInput={handleTextinput}
+            textNumber={2}
+            textCount={textCount} 
+            onCloseTextField={setTextCount}
+          />
+        )}
+        {textCount > 2 && (
+          <TextOptions 
+            valueTextTop={parseInt(textState.text3.top.substr(0,2))} 
+            valueTextLeft={parseInt(textState.text3.left.substr(0,2))}
+            valueFontSize={parseInt(textState.text3.fontSize.substr(0,2))}
+            valueTextColor={textState.text3.fontColor} 
+            onChangeTop={handleTextTop}
+            onChangeLeft={handleTextLeft}
+            onChangeFont={handleTextFont}
+            onChangeColor={handleTextColor}
+            onChangeInput={handleTextinput}
+            textNumber={3}
+            textCount={textCount} 
+            onCloseTextField={setTextCount}
+          />
+        )}
+        {textCount > 3 && (
+          <TextOptions 
+            valueTextTop={parseInt(textState.text4.top.substr(0,2))} 
+            valueTextLeft={parseInt(textState.text4.left.substr(0,2))}
+            valueFontSize={parseInt(textState.text4.fontSize.substr(0,2))}
+            valueTextColor={textState.text4.fontColor} 
+            onChangeTop={handleTextTop}
+            onChangeLeft={handleTextLeft}
+            onChangeFont={handleTextFont}
+            onChangeColor={handleTextColor}
+            onChangeInput={handleTextinput}
+            textNumber={4}
+            textCount={textCount} 
+            onCloseTextField={setTextCount}
+          />
+        )}
+        
+        {textCount <= 3 && <AddTextFieldBtn textCount={textCount} onAddTextField={setTextCount}/>}
 
         <div className='upload-section'>
           <button className="upload-btn" onClick={uploadImageHandler}>Upload image</button>
@@ -501,33 +344,39 @@ function Main() {
                 width: imageSize/1.2 + 'px'}} 
                 onChange={handleTextTop}>{textState && textState.text1.text}
               </p>
-              
-              <p className="meme-text-2" style={{
-                top: textState && textState.text2.top, 
-                left: textState && textState.text2.left, 
-                fontSize: textState && textState.text2.fontSize, 
-                color: textState && textState.text2.color, 
-                width: imageSize/1.2 + 'px'}} 
-                onChange={handleTextTop}>{textState && textState.text2.text}
-              </p>
 
-              <p className="meme-text-2" style={{
-                top: textState && textState.text3.top, 
-                left: textState && textState.text3.left, 
-                fontSize: textState && textState.text3.fontSize, 
-                color: textState && textState.text3.color, 
-                width: imageSize/1.2 + 'px'}} 
-                onChange={handleTextTop}>{textState && textState.text3.text}
-              </p>
+              {textCount > 1 && (
+                <p className="meme-text-2" style={{
+                  top: textState && textState.text2.top, 
+                  left: textState && textState.text2.left, 
+                  fontSize: textState && textState.text2.fontSize, 
+                  color: textState && textState.text2.color, 
+                  width: imageSize/1.2 + 'px'}} 
+                  onChange={handleTextTop}>{textState && textState.text2.text}
+                </p>
+              )}
+              {textCount > 2 && (
+                <p className="meme-text-2" style={{
+                  top: textState && textState.text3.top, 
+                  left: textState && textState.text3.left, 
+                  fontSize: textState && textState.text3.fontSize, 
+                  color: textState && textState.text3.color, 
+                  width: imageSize/1.2 + 'px'}} 
+                  onChange={handleTextTop}>{textState && textState.text3.text}
+                </p>
+              )}
 
-              <p className="meme-text-2" style={{
-                top: textState && textState.text4.top, 
-                left: textState && textState.text4.left, 
-                fontSize: textState && textState.text4.fontSize, 
-                color: textState && textState.text4.color, 
-                width: imageSize/1.2 + 'px'}} 
-                onChange={handleTextTop}>{textState && textState.text4.text}
-              </p>
+              {textCount > 3 && (
+                <p className="meme-text-2" style={{
+                  top: textState && textState.text4.top, 
+                  left: textState && textState.text4.left, 
+                  fontSize: textState && textState.text4.fontSize, 
+                  color: textState && textState.text4.color, 
+                  width: imageSize/1.2 + 'px'}} 
+                  onChange={handleTextTop}>{textState && textState.text4.text}
+                </p>
+              )}
+
             </div>
             <div className="lat-btn-big" onClick={() => setMemeCount(memeCount + 1)}>▶️</div>
         </div>
