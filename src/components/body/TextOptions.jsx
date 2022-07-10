@@ -8,7 +8,7 @@ const TextOptions = (props) => {
         <h3>Text {props.textNumber}</h3>
         <label htmlFor={"text" + props.textNumber + "-top"}>Top: </label>
         <input 
-          name={"text" + props.textNumber + "-top"} 
+          name={"text" + props.textNumber} 
           value={props.valueTextTop}
           type="range" 
           min="35" 
@@ -18,7 +18,7 @@ const TextOptions = (props) => {
         <br/>
         <label htmlFor={"text" + props.textNumber + "-left"}>Left: </label>
         <input 
-          name={"text" + props.textNumber + "-left"} 
+          name={"text" + props.textNumber} 
           value={props.valueTextLeft}
           type="range" 
           min="20" 
@@ -28,7 +28,7 @@ const TextOptions = (props) => {
         <br/>
         <label htmlFor={"text" + props.textNumber + "-font"}>Font-Size: </label>
         <input 
-          name={"text" + props.textNumber + "-font"} 
+          name={"text" + props.textNumber} 
           value={props.valueFontSize}
           type="range" 
           min="20" 
@@ -38,7 +38,7 @@ const TextOptions = (props) => {
         <br/>
         <label htmlFor={"text" + props.textNumber + "-color"}>Choose color: </label>
         <input 
-          name={"text" + props.textNumber + "-color"} 
+          name={"text" + props.textNumber} 
           type="color" 
           value={props.valueTextColor} 
           onChange={props.onChangeColor} />
