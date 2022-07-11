@@ -5,22 +5,6 @@ import axios from 'axios';
 import TextOptions from './TextOptions';
 import AddTextFieldBtn from './elements/AddTextFieldBtn';
 
-const ACTIONS = {
-  FETCH_MEMES: 'fetch-memes',
-  MEME_TEXT1: 'meme-text1',
-  MEME_TEXT2: 'meme-text2',
-  TEXT1_TOP: 'text1-top',
-  TEXT2_TOP: 'text2-top',
-  TEXT1_LEFT: 'text1-left',
-  TEXT2_LEFT: 'text2-left',
-  TEXT1_FONT: 'text1-font',
-  TEXT2_FONT: 'text2-font',
-  TEXT1_COLOR: 'text1-color',
-  TEXT2_COLOR: 'text2-color',
-  IMAGE_SIZE: 'image-size',
-  IMAGE_UPLOAD:  'image-upaload',
-  SET_FILE: 'set-file'
-};
 
 const reducer = (state, action) => {
   switch(action['field']) {
@@ -158,10 +142,15 @@ function Main() {
   
   // Hier beginnt die ganze Meme Capture Geschichte
   const ref = createRef();
-
+  const canvasContainer = createRef();
+  const customCanvas = document.getElementById('customCanvas');
+  
   // Hier ist die Capture Function
   const doCapture = () => {
-    html2canvas(ref.current, {letterRendering: 1, allowTaint : true}).then(canvas => {
+    // html2canvas(ref.current, {letterRendering: 1, allowTaint : true, canvas: true}).then(canvas => {
+    //   document.body.appendChild(canvas)
+    // })
+    html2canvas(ref.current, {letterRendering: 1, allowTaint : true, canvas: customCanvas, scale: 1}).then(canvas => {
       document.body.appendChild(canvas)
     })
   }
@@ -208,12 +197,7 @@ function Main() {
   }
 
   const handleTextinput = (e) => {
-    console.log(e.target.name)
-    if(e.target.name === 'text1') {
-      dispatch({type: ACTIONS.MEME_TEXT1, text: e.target.value});
-    } else if(e.target.name === 'text2') {
-      dispatch({type: ACTIONS.MEME_TEXT2, text: e.target.value});
-    }
+    dispatch({field: e.target.name, action: 'text', value: e.target.value})
   }
   
   const handleTextTop = (e) => {
@@ -321,7 +305,7 @@ function Main() {
            <button className="upload-btn" onClick={doCapture}>Capture</button>
           <br/>
           
-          <label className="image-resize"  for="image-heigth">Resize Image</label>
+          <label className="image-resize"  for="image-height">Resize Image</label>
             <input 
               type="range" 
               value={imageSize}
@@ -380,6 +364,10 @@ function Main() {
             </div>
             <div className="lat-btn-big" onClick={() => setMemeCount(memeCount + 1)}>▶️</div>
         </div>
+      </div>
+      {console.log(imageSize)}
+      <div className="canvas-container" ref={canvasContainer}>
+        <canvas className="custom-canvas" id="customCanvas" height={imageSize} width="auto"></canvas>
       </div>
     </>
   )
