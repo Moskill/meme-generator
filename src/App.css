@@ -134,3 +134,19 @@ canvas {
   background: #ccc;
   border: 1px solid gray;
 }
+
+.custom-canvas {
+  background: none;
+  border: none;
+  z-index:999;
+}
+
+.canvas-container {
+  background: #00000040;
+  height: 100%;
+  width: 100%;
+  top: 0px;
+  z-index: 998;
+  position: absolute;
+  display: none;
+}

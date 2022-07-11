@@ -4,6 +4,7 @@ import classes from './TextOptions.module.css';
 const TextOptions = (props) => {
   return (
     <>
+    <div>
       <div className={props.textNumber + "-options"}>
         <h3>Text {props.textNumber}<div className={classes['close-btn']} onClick={() => props.onCloseTextField(props.textCount - 1)}>x</div></h3>
         <label htmlFor={"text" + props.textNumber + "-top"}>Top: </label>
@@ -49,6 +50,7 @@ const TextOptions = (props) => {
           placeholder={"This here is text" + props.textNumber + "..."}
           onChange={props.onChangeInput} />
         <br/><br/>
+      </div>
       </div>
     </>
   )
