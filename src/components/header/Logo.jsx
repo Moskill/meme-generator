@@ -7,7 +7,7 @@ const Logo = () => {
     <>
       <div className={classes['logo-wrapper']}>
         <h1>Meme-Generator</h1>
-        <p className={classes['powered-text']}>powered by  <img className={classes['logo-img']} src={logo} alt='Full Stack Chris' width='60'/></p>
+        <p className={classes['powered-text']}>powered by  <a href="https://fullstackchris.com"><img className={classes['logo-img']} src={logo} alt='Full Stack Chris' width='60'/></a></p>
       </div>
     </>
   )

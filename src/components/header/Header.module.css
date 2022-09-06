@@ -9,3 +9,7 @@
   display: flex;
   justify-content: center;
 }
+
+.navbar-bg {
+  background: #353535;
+}

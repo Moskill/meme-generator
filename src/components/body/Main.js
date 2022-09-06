@@ -2,8 +2,10 @@ import React, { useState, useEffect, useReducer, createRef, useRef } from 'react
 import { useScreenshot, createFileName } from 'use-react-screenshot';
 import html2canvas from 'html2canvas';
 import axios from 'axios';
-import TextOptions from './TextOptions';
+// import TextOptions from './TextOptions';
 import AddTextFieldBtn from './elements/AddTextFieldBtn';
+import OptionsBar from './OptionsBar/OptionsBar';
+import MemeText from './elements/MemeText';
 
 
 const reducer = (state, action) => {
@@ -226,108 +228,39 @@ function Main() {
   
   return (
     <>
-      {/* Die Text-Edit-Felder */}
-      <div className="text-option">
-        <TextOptions 
-          valueTextTop={parseInt(textState.text1.top.substr(0,2))} 
-          valueTextLeft={parseInt(textState.text1.left.substr(0,2))}
-          valueFontSize={parseInt(textState.text1.fontSize.substr(0,2))}
-          valueTextColor={textState.text1.fontColor} 
-          onChangeTop={handleTextTop}
-          onChangeLeft={handleTextLeft}
-          onChangeFont={handleTextFont}
-          onChangeColor={handleTextColor}
-          onChangeInput={handleTextinput}
-          textNumber={1}
-          textCount={textCount} 
-          onCloseTextField={setTextCount}
-        />
-
-        {textCount > 1 && (
-          <TextOptions 
-            valueTextTop={parseInt(textState.text2.top.substr(0,2))} 
-            valueTextLeft={parseInt(textState.text2.left.substr(0,2))}
-            valueFontSize={parseInt(textState.text2.fontSize.substr(0,2))}
-            valueTextColor={textState.text2.fontColor} 
-            onChangeTop={handleTextTop}
-            onChangeLeft={handleTextLeft}
-            onChangeFont={handleTextFont}
-            onChangeColor={handleTextColor}
-            onChangeInput={handleTextinput}
-            textNumber={2}
-            textCount={textCount} 
-            onCloseTextField={setTextCount}
-          />
-        )}
-        {textCount > 2 && (
-          <TextOptions 
-            valueTextTop={parseInt(textState.text3.top.substr(0,2))} 
-            valueTextLeft={parseInt(textState.text3.left.substr(0,2))}
-            valueFontSize={parseInt(textState.text3.fontSize.substr(0,2))}
-            valueTextColor={textState.text3.fontColor} 
-            onChangeTop={handleTextTop}
-            onChangeLeft={handleTextLeft}
-            onChangeFont={handleTextFont}
-            onChangeColor={handleTextColor}
-            onChangeInput={handleTextinput}
-            textNumber={3}
-            textCount={textCount} 
-            onCloseTextField={setTextCount}
-          />
-        )}
-        {textCount > 3 && (
-          <TextOptions 
-            valueTextTop={parseInt(textState.text4.top.substr(0,2))} 
-            valueTextLeft={parseInt(textState.text4.left.substr(0,2))}
-            valueFontSize={parseInt(textState.text4.fontSize.substr(0,2))}
-            valueTextColor={textState.text4.fontColor} 
-            onChangeTop={handleTextTop}
-            onChangeLeft={handleTextLeft}
-            onChangeFont={handleTextFont}
-            onChangeColor={handleTextColor}
-            onChangeInput={handleTextinput}
-            textNumber={4}
-            textCount={textCount} 
-            onCloseTextField={setTextCount}
-          />
-        )}
-        
-        {textCount <= 3 && <AddTextFieldBtn textCount={textCount} onAddTextField={setTextCount}/>}
-
-        <div className='upload-section'>
-          <button className="upload-btn" onClick={uploadImageHandler}>Upload image</button>
-          {imageUpload && 
-            <form className="text-option-form" action="#" method="post" onSubmit={submitUploadFile}>
-              <input type="file" onChange={fileUploadHandler} />
-              <button type="submit" >Upload</button>
-            </form> 
-          }
-           <button className="upload-btn" onClick={doCapture}>Capture</button>
-          <br/>
-          
-          <label className="image-resize"  for="image-height">Resize Image</label>
-            <input 
-              type="range" 
-              value={imageSize}
-              name="image-height" 
-              min="100" max="1200" 
-              onChange={imageSizeHandler}
-            />
-        </div>
-      </div>
+      <OptionsBar
+        textValues={textState}
+        onChangeTop={handleTextTop}
+        onChangeLeft={handleTextLeft}
+        onChangeFont={handleTextFont}
+        onChangeColor={handleTextColor}
+        onChangeInput={handleTextinput}
+        textNumber={["text1", "text2", "text3", "text4"]}
+        textCount={textCount} 
+        onCloseTextField={setTextCount}
+      />
       <div className="main-body" >
         <div className="random-meme">
         {memeCount !== 0 ? <div className="last-btn" onClick={handleLastMeme}>◀️</div> : <div className="last-btn" inactive="true">◀️</div>}
           <div className="meme-container" ref={ref}>
           <img style={{width: imageSize + 'px'}} src={meme.memes && meme.memes[memeCount].url} />
-              <p className="meme-text-1" style={{
+            <MemeText
+              handleTextTop={handleTextTop}
+              top={textState && textState.text1.top}
+              left={textState && textState.text1.left}
+              fontSize={textState && textState.text1.fontSize}
+              color={textState && textState.text1.color}
+              width={imageSize/1.2}
+              text={textState && textState.text1.text}
+            />
+              {/* <p className="meme-text-1" style={{
                 top: textState && textState.text1.top, 
                 left: textState && textState.text1.left, 
                 fontSize: textState && textState.text1.fontSize, 
                 color: textState && textState.text1.color, 
                 width: imageSize/1.2 + 'px'}} 
                 onChange={handleTextTop}>{textState && textState.text1.text}
-              </p>
+              </p> */}
 
               {textCount > 1 && (
                 <p className="meme-text-2" style={{
@@ -365,7 +298,6 @@ function Main() {
             <div className="lat-btn-big" onClick={() => setMemeCount(memeCount + 1)}>▶️</div>
         </div>
       </div>
-      {console.log(imageSize)}
       <div className="canvas-container" ref={canvasContainer}>
         <canvas className="custom-canvas" id="customCanvas" height={imageSize} width="auto"></canvas>
       </div>
